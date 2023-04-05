@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { addToDb, getShoppingCart } from "../../utilities/fakedb";
+import {
+  addToDb,
+  deleteShoppingCart,
+  getShoppingCart,
+} from "../../utilities/fakedb";
 import Cart from "../Cart/Cart";
 import Peoduct from "../Product/Peoduct";
 import "./Shop.css";
+import { Link } from "react-router-dom";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -34,24 +39,27 @@ const Shop = () => {
 
   const handleCart = (product) => {
     // set new cart
-    let newCart=[]
+    let newCart = [];
     // cart push product
     // const newCart = [...cart, product];
     // if product doesn't exist in the cart,then set quantity 1
-    const exists=cart.find(pd=>pd.id===product.id);
-    if(!exists){
-        product.quantity=1;
-        newCart=[...cart,product]
+    const exists = cart.find((pd) => pd.id === product.id);
+    if (!exists) {
+      product.quantity = 1;
+      newCart = [...cart, product];
     }
     // if exists update and add quantity by 1;
-    else{
-        exists.quantity=exists.quantity+1;
-        const remaining=cart.filter(pd=>pd.id!==product.id)
-        newCart=[...remaining,exists]
-
+    else {
+      exists.quantity = exists.quantity + 1;
+      const remaining = cart.filter((pd) => pd.id !== product.id);
+      newCart = [...remaining, exists];
     }
     setCart(newCart);
     addToDb(product.id);
+  };
+  const handleClear = () => {
+    setCart([]);
+    deleteShoppingCart();
   };
   return (
     <div className="shop-container">
@@ -65,7 +73,11 @@ const Shop = () => {
         ))}
       </div>
       <div className="cart-container">
-        <Cart cart={cart}></Cart>
+        <Cart cart={cart} handleClear={handleClear}>
+          <Link className="purches-link" to="/orders">
+            <button className="review-btn">Review Order</button>
+          </Link>
+        </Cart>
       </div>
     </div>
   );

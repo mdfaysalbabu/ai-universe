@@ -3,8 +3,25 @@
     grid-template-columns: 4fr 1fr;
 }
 .products-container{
-    margin: 50px;
+    margin: 25px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
+}
+.purches-link{
+    text-decoration: none;
+    
+}
+
+.review-btn{
+    background-color: orange;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    height: 56px;
+    margin: 10px auto;
+    color: white;
+    align-items: center;
+
+
 }
